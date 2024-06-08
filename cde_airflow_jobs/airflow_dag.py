@@ -109,21 +109,21 @@ create_object = S3CreateObjectOperator(
 bronze = CDEJobRunOperator(
         task_id='data-ingestion',
         dag=dag,
-        job_name='01_Lakehouse_Bronze_'+username, #Must match name of CDE Spark Job in the CDE Jobs UI
+        job_name='001_Lakehouse_Bronze_'+username, #Must match name of CDE Spark Job in the CDE Jobs UI
         trigger_rule='all_success',
         )
 
 silver = CDEJobRunOperator(
         task_id='iceberg-merge-branch',
         dag=dag,
-        job_name='02_Lakehouse_Silver_'+username, #Must match name of CDE Spark Job in the CDE Jobs UI
+        job_name='002_Lakehouse_Silver_'+username, #Must match name of CDE Spark Job in the CDE Jobs UI
         trigger_rule='all_success',
         )
 
 gold = CDEJobRunOperator(
         task_id='gold-layer',
         dag=dag,
-        job_name='03_Lakehouse_Gold_'+username, #Must match name of CDE Spark Job in the CDE Jobs UI
+        job_name='003_Lakehouse_Gold_'+username, #Must match name of CDE Spark Job in the CDE Jobs UI
         trigger_rule='all_success',
         )
 

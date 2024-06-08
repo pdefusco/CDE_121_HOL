@@ -73,11 +73,11 @@ trxBatchDf = spark.read.option("branch", "ingestion_branch")\
 
 geTrxBatchDf = SparkDFDataset(trxBatchDf)
 
-geTrxBatchDfValidation = geTrxBatchDf.expect_compound_columns_to_be_unique(["credit_card_number", "event_ts", "longitude", "latitude"])
+geTrxBatchDfValidation = geTrxBatchDf.expect_compound_columns_to_be_unique(["event_ts", "longitude", "latitude"])
 
 print(f"VALIDATION RESULTS FOR TRANSACTION BATCH DATA:\n{geTrxBatchDfValidation}\n")
 assert geTrxBatchDfValidation.success, \
-    "VALIDATION FOR SALES TABLE UNSUCCESSFUL: FOUND DUPLICATES IN [credit_card_number, credit_card_provider]."
+    "VALIDATION FOR SALES TABLE UNSUCCESSFUL: FOUND DUPLICATES IN COLUMNS LIST."
 
 ### MERGE INGESTION BRANCH INTO MAIN TABLE BRANCH
 

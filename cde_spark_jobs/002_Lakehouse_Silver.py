@@ -61,7 +61,9 @@ print("PySpark Runtime Arg: ", sys.argv[1])
 #               LOAD BATCH DATA FROM BRANCH
 #---------------------------------------------------
 
-trxBatchDf = spark.sql("SELECT * FROM spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0} VERSION AS OF 'ingestion_branch';".format(username))
+trxBatchDf = spark.read.option("branch", "ingestion_branch")\
+                .format("iceberg")\
+                .load("spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0}".format(username))
 
 #---------------------------------------------------
 #               VALIDATE BATCH DATA IN BRANCH

@@ -61,7 +61,7 @@ All files from the git repository are now stored in CDE as a CDE Repository. Eac
 
 A resource in CDE is a named collection of files used by a job or a session. Resources can include application code, configuration files, custom Docker images, and Python virtual environment specifications (requirements.txt).
 
-A CDE Resource of type "Files" containing the the "parameters.conf" and "utils.py" files has already been created for all participants.
+A CDE Resource of type "Files" containing the the "parameters.conf" and "utils.py" files named "Spark_Files_Resource" has already been created for all participants.
 
 ##### Create CDE Spark Job
 

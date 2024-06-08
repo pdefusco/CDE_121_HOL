@@ -40,7 +40,7 @@ Git repositories allow teams to collaborate, manage project artifacts, and promo
 
 In this step you will create a CDE Repository in order to clone the PySpark scripts containing the Application Code for your CDE Spark Job.
 
-From the Main Page click on "Repositories" and then the "Create Repository" blue icon. 
+From the Main Page click on "Repositories" and then the "Create Repository" blue icon.
 
 ![alt text](../../img/part3-repos-1.png)
 
@@ -74,7 +74,7 @@ Navigate to the CDE Jobs tab and click on "Create Job". The long form loaded to 
 Enter the following values without quotes into the corresponding fields. Make sure to update the username with your assigned user wherever needed:
 
 * Job Type: Spark
-* Name: 001_Lakehouse_Bronze.py
+* Name: 001_Lakehouse_Bronze
 * File: Select from Resource -> "001_Lakehouse_Bronze.py"
 * Arguments: userxxx #e.g. user002
 
@@ -95,14 +95,14 @@ Repeat the process for the two remaining PySpark scripts:
 Lakehouse Silver Spark Job:
 
 * Job Type: Spark
-* Name: 002_Lakehouse_Silver.py
+* Name: 002_Lakehouse_Silver
 * File: Select from Resource -> "002_Lakehouse_Silver.py"
 * Arguments: userxxx #e.g. user002
 
 Lakehouse Gold Spark Job:
 
 * Job Type: Spark
-* Name: 003_Lakehouse_Gold.py
+* Name: 003_Lakehouse_Gold
 * File: Select from Resource -> "003_Lakehouse_Gold.py"
 * Arguments: userxxx #e.g. user002
 
@@ -138,7 +138,7 @@ Open the "airflow_dag.py" script located in the "cde_airflow_jobs" folder. Famil
 
 Then navigate to the CDE Jobs UI and create a new CDE Job.
 
-Select Airflow as the Job Type; assign a unique CDE Job name based on your user; select the "airflow_dag.py" script and elect to create a new Files Resource named after yourself in the process. 
+Select Airflow as the Job Type; assign a unique CDE Job name based on your user; select the "airflow_dag.py" script and elect to create a new Files Resource named after yourself in the process.
 
 Finally, add the Files Resource dependency where you loaded "my_file.txt".  
 

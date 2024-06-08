@@ -42,7 +42,7 @@ import pyspark.sql.functions as F
 from pyspark.sql.types import *
 import sys, random, os, json, random, configparser
 from utils import *
-#from great_expectations.dataset.sparkdf_dataset import SparkDFDataset
+from great_expectations.dataset.sparkdf_dataset import SparkDFDataset
 
 spark = SparkSession \
     .builder \

@@ -140,4 +140,4 @@ spark.sql("SELECT COUNT(*) FROM spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0};".form
 #spark.sql("SELECT COUNT(*) FROM spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0} VERSION AS OF 'ingestion_branch';".format(username)).show()
 spark.read.option("branch", "ingestion_branch")\
     .format("iceberg")\
-    .load("spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0}".format(username)).show()
+    .load("spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0}".format(username)).count()

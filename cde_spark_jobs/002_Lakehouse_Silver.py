@@ -73,7 +73,7 @@ trxBatchDf = spark.read.option("branch", "ingestion_branch")\
 
 geTrxBatchDf = SparkDFDataset(trxBatchDf)
 
-geTrxBatchDfValidation = geTrxBatchDf.expect_compound_columns_to_be_unique(["credit_card_number", "credit_card_provider", "event_ts", "longitude", "latitude"])
+geTrxBatchDfValidation = geTrxBatchDf.expect_compound_columns_to_be_unique(["credit_card_number", "event_ts", "longitude", "latitude"])
 
 print(f"VALIDATION RESULTS FOR TRANSACTION BATCH DATA:\n{geTrxBatchDfValidation}\n")
 assert geTrxBatchDfValidation.success, \

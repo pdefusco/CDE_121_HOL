@@ -23,6 +23,7 @@ The Spark Application scripts and configuration files used in these labs are ava
 
 The Airflow DAG script is available in the [CDE Airflow Jobs folder in the HOL git repository](https://github.com/pdefusco/CDE_121_HOL/tree/main/cde_airflow_jobs). Please familiarize yourself with the code in the "airflow_dag.py" script as well.
 
+```
 * The "01_Lakehouse_Bronze.py" PySpark Application createas Iceberg Customer and Credit Card transactions tables from different file formats. "utils.py" contains a the Python method to transform multiple dataframe columns at once utilized by the "01_Lakehouse_Bronze.py" script.
 
 * "parameters.conf" contains a configuration variable that is passed to each of the three PySpark scripts. Storing variables in a Files Resource is a commonly used method by CDE Data Engineers to dynamically parameterize scripts and pass hidden credentials at runtime.
@@ -32,6 +33,7 @@ The Airflow DAG script is available in the [CDE Airflow Jobs folder in the HOL g
 * "03_Lakehouse_Gold.py" loads the data from the Transactions table filtering in terms of Iceberg snapshot ID in order to only reflect the latest batch. Then it joins it with the customer table and uses a PySpark UDF to filter customers in terms of distance to the transaction location. Finally, it creates a Gold Layer table in order to provide curated access to Business analysts and other authorized stakeholders.
 
 * "airflow_dag.py" orchestrates the Data Engineering pipeline. First an AWS S3 bucket is created; a simple file "my_file.txt" is read from a CDE Files Resource and written to the S3 bucket. Successively the three CDE Spark Jobs discussed above are executed in order to create a Lakehouse Gold Layer table.
+```
 
 ##### Create CDE Repository
 
@@ -79,6 +81,7 @@ Navigate to the CDE Jobs tab and click on "Create Job". The long form loaded to 
 
 Enter the following values without quotes into the corresponding fields. Make sure to update the username with your assigned user wherever needed:
 
+```
 * Job Type: Spark
 * Name: 001_Lakehouse_Bronze_userxxx
 * File: Select from Repository -> "cde_spark_jobs/001_Lakehouse_Bronze.py"
@@ -86,6 +89,7 @@ Enter the following values without quotes into the corresponding fields. Make su
 * Advanced Options - Resources: Spark_Files_Resource
 * Advanced Options - Repositories: CDE_Repo_userxxx e.g. CDE_Repo_user002
 * Compute Options - increase "Executor Cores" and "Executor Memory" from 1 to 2.
+```
 
 Finally, save the CDE Job by clicking the "Create" icon. ***Please do not select "Create and Run".***
 
@@ -93,6 +97,7 @@ Repeat the process for the remaining PySpark scripts:
 
 Lakehouse Silver Spark Job:
 
+```
 * Job Type: Spark
 * Name: 002_Lakehouse_Silver_userxxx
 * File: Select from Resource -> "002_Lakehouse_Silver.py"
@@ -100,15 +105,18 @@ Lakehouse Silver Spark Job:
 * Python Environment: Python_Resource
 * Advanced Options - Resources: Spark_Files_Resource
 * Advanced Options - Repositories: CDE_Repo_userxxx e.g. CDE_Repo_user002
+```
 
 Lakehouse Gold Spark Job:
 
+```
 * Job Type: Spark
 * Name: 003_Lakehouse_Gold_userxxx
 * File: Select from Resource -> "003_Lakehouse_Gold.py"
 * Arguments: userxxx #e.g. user002
 * Advanced Options - Resources: Spark_Files_Resource
 * Advanced Options - Repositories: CDE_Repo_userxxx e.g. CDE_Repo_user002
+```
 
 Again, ***please create but do not run the jobs!***
 

@@ -59,15 +59,6 @@ print("PySpark Runtime Arg: ", sys.argv[1])
 
 
 #---------------------------------------------------
-#               LOAD BATCH DATA FROM BRANCH
-#---------------------------------------------------
-
-trxBatchDf = spark.read.option("branch", "ing_branch")\
-                .format("iceberg")\
-                .load("spark_catalog.HOL_DB_{0}.HIST_TRX_{0}".format(username))
-
-
-#---------------------------------------------------
 #               PROCESS BATCH TRANSACTIONS
 #---------------------------------------------------
 

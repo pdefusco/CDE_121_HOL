@@ -78,7 +78,7 @@ Navigate to the CDE Jobs tab and click on "Create Job". The long form loaded to 
 Enter the following values without quotes into the corresponding fields. Make sure to update the username with your assigned user wherever needed:
 
 * Job Type: Spark
-* Name: 001_Lakehouse_Bronze
+* Name: 001_Lakehouse_Bronze_userxxx
 * File: Select from Resource -> "001_Lakehouse_Bronze.py"
 * Arguments: userxxx #e.g. user002
 
@@ -99,14 +99,14 @@ Repeat the process for the two remaining PySpark scripts:
 Lakehouse Silver Spark Job:
 
 * Job Type: Spark
-* Name: 002_Lakehouse_Silver
+* Name: 002_Lakehouse_Silver_userxxx
 * File: Select from Resource -> "002_Lakehouse_Silver.py"
 * Arguments: userxxx #e.g. user002
 
 Lakehouse Gold Spark Job:
 
 * Job Type: Spark
-* Name: 003_Lakehouse_Gold
+* Name: 003_Lakehouse_Gold_userxxx
 * File: Select from Resource -> "003_Lakehouse_Gold.py"
 * Arguments: userxxx #e.g. user002
 

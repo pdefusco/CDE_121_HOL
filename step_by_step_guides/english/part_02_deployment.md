@@ -77,8 +77,6 @@ Now that you are familiar with CDE Repositories and Resources you are ready to c
 
 Navigate to the CDE Jobs tab and click on "Create Job". The long form loaded to the page allows you to build a Spark Submit as a CDE Spark Job, step by step.
 
-![alt text](../../img/part1-cdesparkjob-1.png)
-
 Enter the following values without quotes into the corresponding fields. Make sure to update the username with your assigned user wherever needed:
 
 ```
@@ -92,6 +90,10 @@ Enter the following values without quotes into the corresponding fields. Make su
 ```
 
 Finally, save the CDE Job by clicking the "Create" icon. ***Please do not select "Create and Run".***
+
+![alt text](../../img/new_spark_job_1.png)
+
+![alt text](../../img/new_spark_job_2.png)
 
 Repeat the process for the remaining PySpark scripts:
 
@@ -146,23 +148,19 @@ Open the "airflow_dag.py" script located in the "cde_airflow_jobs" folder. Famil
 * Three instances of the CDEJobRunOperator obect are declared. These reflect the three CDE Spark Jobs you created above.
 * Finally, at the bottom of the DAG, Task Dependencies are declared. With this statement you can specify the execution sequence of DAG tasks.
 
-Download the file from this URL to your local machine. Open it in your editor of choice and edit the username variable at line 49.
+Download the file from [this URL](https://github.com/pdefusco/CDE_121_HOL/tree/main/cde_airflow_jobs) to your local machine. Open it in your editor of choice and edit the username variable at line 49.
 
-Then navigate to the CDE Jobs UI and create a new CDE Job. Select Airflow as the Job Type. Select the "airflow_dag.py" script and elect to create a new Files Resource named after yourself in the process.
+Then navigate to the CDE Jobs UI and create a new CDE Job. Select Airflow as the Job Type. Select the "airflow_dag.py" script and elect to create a new Files Resource named after yourself in the process. Finally, add the Files Resource dependency where you loaded "my_file.txt".  
 
-Finally, add the Files Resource dependency where you loaded "my_file.txt".  
+![alt text](../../img/new_airflow_job_1.png)
 
-![alt text](../../img/part3-cdeairflowjob-1.png)
-
-![alt text](../../img/part3-cdeairflowjob-2.png)
+![alt text](../../img/new_airflow_job_2.png)
 
 Monitor the execution of the pipeline from the Job Runs UI. Notice an Airflow Job will be triggered and successively the three CDE Spark Jobs will run one by one.
 
 While the job is in-flight open the Airflow UI and monitor execution.
 
-![alt text](../../img/part3-cdeairflowjob-3.png)
-
-![alt text](../../img/part3-cdeairflowjob-4.png)
+![alt text](../../img/new_airflow_job_3.png)
 
 
 ### Summary

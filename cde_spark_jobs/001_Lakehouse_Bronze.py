@@ -69,19 +69,19 @@ piiDf = piiDf.withColumn("address_latitude",  piiDf["address_latitude"].cast('fl
 piiDf = piiDf.withColumn("address_longitude",  piiDf["address_longitude"].cast('float'))
 
 ### STORE CUSTOMER DATA AS TABLE
-piiDf.writeTo("spark_catalog.HOL_DB_{0}.CUST_TABLE_{0}".format(username)).using("iceberg").createOrReplace()
+piiDf.writeTo("spark_catalog.DEFAULT.CUST_TABLE_{0}".format(username)).using("iceberg").createOrReplace()
 
 
 #---------------------------------------------------
 #               CREATE REFINED CUSTOMER TABLE
 #---------------------------------------------------
 
-spark.sql("DROP TABLE IF EXISTS spark_catalog.HOL_DB_{0}.CUST_TABLE_REFINED_{0}".format(username))
+spark.sql("DROP TABLE IF EXISTS SPARK_CATALOG.DEFAULT.CUST_TABLE_REFINED_{0}".format(username))
 
-spark.sql("""CREATE TABLE spark_catalog.HOL_DB_{0}.CUST_TABLE_REFINED_{0}
+spark.sql("""CREATE TABLE SPARK_CATALOG.DEFAULT.CUST_TABLE_REFINED_{0}
                 USING iceberg
                 AS SELECT NAME, EMAIL, BANK_COUNTRY, ACCOUNT_NO, CREDIT_CARD_NUMBER, ADDRESS_LATITUDE, ADDRESS_LONGITUDE
-                FROM spark_catalog.HOL_DB_{0}.CUST_TABLE_{0}""".format(username))
+                FROM SPARK_CATALOG.HOL_DB_{0}.CUST_TABLE_{0}""".format(username))
 
 
 #---------------------------------------------------
@@ -89,10 +89,10 @@ spark.sql("""CREATE TABLE spark_catalog.HOL_DB_{0}.CUST_TABLE_REFINED_{0}
 #---------------------------------------------------
 
 # UPDATE TYPES: Updating Latitude and Longitude FROM FLOAT TO DOUBLE
-spark.sql("""ALTER TABLE spark_catalog.HOL_DB_{0}.CUST_TABLE_REFINED_{0}
+spark.sql("""ALTER TABLE SPARK_CATALOG.DEFAULT.CUST_TABLE_REFINED_{0}
                 ALTER COLUMN ADDRESS_LATITUDE TYPE double""".format(username))
 
-spark.sql("""ALTER TABLE spark_catalog.HOL_DB_{0}.CUST_TABLE_REFINED_{0}
+spark.sql("""ALTER TABLE SPARK_CATALOG.DEFAULT.CUST_TABLE_REFINED_{0}
                 ALTER COLUMN ADDRESS_LONGITUDE TYPE double""".format(username))
 
 
@@ -100,7 +100,7 @@ spark.sql("""ALTER TABLE spark_catalog.HOL_DB_{0}.CUST_TABLE_REFINED_{0}
 #               VALIDATA TABLE
 #---------------------------------------------------
 
-spark.sql("""SELECT * FROM spark_catalog.HOL_DB_{0}.CUST_TABLE_REFINED_{0}""".format(username)).show()
+spark.sql("""SELECT * FROM SPARK_CATALOG.DEFAULT.CUST_TABLE_REFINED_{0}""".format(username)).show()
 
 
 #---------------------------------------------------
@@ -126,16 +126,16 @@ transactionsDf = castMultipleColumns(transactionsDf, cols)
 transactionsDf = transactionsDf.withColumn("event_ts", transactionsDf["event_ts"].cast("timestamp"))
 
 ### RECREATE DATABASE AND TRX TABLE
-spark.sql("DROP DATABASE IF EXISTS SPARK_CATALOG.HOL_DB_{} CASCADE".format(username))
-spark.sql("CREATE DATABASE IF NOT EXISTS SPARK_CATALOG.HOL_DB_{}".format(username))
+#spark.sql("DROP DATABASE IF EXISTS SPARK_CATALOG.{} CASCADE".format(username))
+#spark.sql("CREATE DATABASE IF NOT EXISTS SPARK_CATALOG.HOL_DB_{}".format(username))
 
-transactionsDf.writeTo("SPARK_CATALOG.HOL_DB_{0}.TRANSACTIONS_{0}".format(username))\
+transactionsDf.writeTo("SPARK_CATALOG.DEFAULT.TRANSACTIONS_{0}".format(username))\
                 .using("iceberg")\
                 .tableProperty("write.format.default", "parquet")\
-                .create()
+                .createOrReplace()
 
 print("COUNT OF TRANSACTIONS TABLE")
-spark.sql("SELECT COUNT(*) FROM spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0};".format(username)).show()
+spark.sql("SELECT COUNT(*) FROM SPARK_CATALOG.DEFAULT.TRANSACTIONS_{0};".format(username)).show()
 
 #---------------------------------------------------
 #               PROCESS BATCH TRANSACTIONS
@@ -164,11 +164,11 @@ print(trxBatchDf.count())
 #---------------------------------------------------
 
 # CREATE TABLE BRANCH
-spark.sql("ALTER TABLE spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0} DROP BRANCH IF EXISTS ingestion_branch".format(username))
-spark.sql("ALTER TABLE spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0} CREATE BRANCH ingestion_branch".format(username))
+spark.sql("ALTER TABLE spark_catalog.DEFAULT.TRANSACTIONS_{0} DROP BRANCH IF EXISTS ingestion_branch".format(username))
+spark.sql("ALTER TABLE spark_catalog.DEFAULT.TRANSACTIONS_{0} CREATE BRANCH ingestion_branch".format(username))
 
 # WRITE DATA OPERATION ON TABLE BRANCH
-trxBatchDf.write.format("iceberg").option("branch", "ingestion_branch").mode("append").save("spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0}".format(username))
+trxBatchDf.write.format("iceberg").option("branch", "ingestion_branch").mode("append").save("SPARK_CATALOG.DEFAULT.TRANSACTIONS_{0}".format(username))
 
 
 #---------------------------------------------------
@@ -176,8 +176,10 @@ trxBatchDf.write.format("iceberg").option("branch", "ingestion_branch").mode("ap
 #---------------------------------------------------
 
 # Notice that a simple SELECT query against the table still returns the original data.
-spark.sql("SELECT COUNT(*) FROM spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0};".format(username)).show()
+print("TABLE COUNT")
+spark.sql("SELECT COUNT(*) FROM SPARK_CATALOG.DEFAULT.TRANSACTIONS_{0};".format(username)).show()
 
 # If you want to access the data in the branch, you can specify the branch name in your SELECT query.
 #spark.sql("SELECT COUNT(*) FROM spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0} VERSION AS OF 'ingestion_branch'".format(username)).show()
-print(spark.read.option("branch", "ingestion_branch").format("iceberg").load("spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0}".format(username)).count())
+print("TABLE BRANCH COUNT")
+print(spark.read.option("branch", "ingestion_branch").format("iceberg").load("SPARK_CATALOG.DEFAULT.TRANSACTIONS_{0}".format(username)).count())

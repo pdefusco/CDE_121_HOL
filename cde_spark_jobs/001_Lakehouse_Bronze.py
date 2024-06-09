@@ -56,6 +56,7 @@ print("Storage Location from Config File: ", storageLocation)
 username = sys.argv[1]
 print("PySpark Runtime Arg: ", sys.argv[1])
 
+
 #---------------------------------------------------
 #               CREATE PII TABLE
 #---------------------------------------------------
@@ -70,6 +71,7 @@ piiDf = piiDf.withColumn("address_longitude",  piiDf["address_longitude"].cast('
 ### STORE CUSTOMER DATA AS TABLE
 piiDf.writeTo("spark_catalog.HOL_DB_{0}.CUST_TABLE_{0}".format(username)).using("iceberg").createOrReplace()
 
+
 #---------------------------------------------------
 #               CREATE REFINED CUSTOMER TABLE
 #---------------------------------------------------
@@ -81,6 +83,7 @@ spark.sql("""CREATE TABLE spark_catalog.HOL_DB_{0}.CUST_TABLE_REFINED_{0}
                 AS SELECT NAME, EMAIL, BANK_COUNTRY, ACCOUNT_NO, CREDIT_CARD_NUMBER, ADDRESS_LATITUDE, ADDRESS_LONGITUDE
                 FROM spark_catalog.HOL_DB_{0}.CUST_TABLE_{0}""".format(username))
 
+
 #---------------------------------------------------
 #               SCHEMA EVOLUTION
 #---------------------------------------------------
@@ -91,6 +94,7 @@ spark.sql("""ALTER TABLE spark_catalog.HOL_DB_{0}.CUST_TABLE_REFINED_{0}
 
 spark.sql("""ALTER TABLE spark_catalog.HOL_DB_{0}.CUST_TABLE_REFINED_{0}
                 ALTER COLUMN ADDRESS_LONGITUDE TYPE double""".format(username))
+
 
 #---------------------------------------------------
 #               VALIDATA TABLE
@@ -130,6 +134,9 @@ transactionsDf.writeTo("SPARK_CATALOG.HOL_DB_{0}.TRANSACTIONS_{0}".format(userna
                 .tableProperty("write.format.default", "parquet")\
                 .create()
 
+print("COUNT OF TRANSACTIONS TABLE")
+spark.sql("SELECT COUNT(*) FROM spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0};".format(username)).show()
+
 #---------------------------------------------------
 #               PROCESS BATCH TRANSACTIONS
 #---------------------------------------------------
@@ -148,17 +155,21 @@ trxBatchDf = trxBatchDf.withColumn("event_ts", trxBatchDf["event_ts"].cast("time
 ### TRX DF SCHEMA AFTER CASTING
 trxBatchDf.printSchema()
 
+print("COUNT OF NEW BATCH OF TRANSACTIONS")
+print(trxBatchDf.count())
+
+
 #---------------------------------------------------
 #               LOAD BATCH DATA IN BRANCH
 #---------------------------------------------------
 
 # CREATE TABLE BRANCH
-
 spark.sql("ALTER TABLE spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0} DROP BRANCH IF EXISTS ingestion_branch".format(username))
 spark.sql("ALTER TABLE spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0} CREATE BRANCH ingestion_branch".format(username))
 
 # WRITE DATA OPERATION ON TABLE BRANCH
 trxBatchDf.write.format("iceberg").option("branch", "ingestion_branch").mode("append").save("spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0}".format(username))
+
 
 #---------------------------------------------------
 #               VALIDATE BATCH DATA IN BRANCH

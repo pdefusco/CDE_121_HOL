@@ -63,7 +63,7 @@ print("PySpark Runtime Arg: ", sys.argv[1])
 
 trxBatchDf = spark.read.option("branch", "ing_branch")\
                 .format("iceberg")\
-                .load("spark_catalog.DEFAULT.TRX_HIST_{0}".format(username))
+                .load("spark_catalog.DEFAULT.HIST_TRX_{0}".format(username))
 
 #---------------------------------------------------
 #               VALIDATE BATCH DATA IN BRANCH
@@ -88,15 +88,15 @@ assert geTrxBatchDfValidation.success, \
 #we will use the cherrypick operation to commit the changes to the table which were staged in the 'ing_branch' branch up until now.
 
 # SHOW PAST BRANCH SNAPSHOT ID'S
-spark.sql("SELECT * FROM spark_catalog.DEFAULT.TRX_HIST_{0}.refs;".format(username)).show()
+spark.sql("SELECT * FROM spark_catalog.DEFAULT.HIST_TRX_{0}.refs;".format(username)).show()
 
 # SAVE THE SNAPSHOT ID CORRESPONDING TO THE CREATED BRANCH
-branchSnapshotId = spark.sql("SELECT snapshot_id FROM spark_catalog.DEFAULT.TRX_HIST_{0}.refs WHERE NAME == 'ing_branch';".format(username)).collect()[0][0]
+branchSnapshotId = spark.sql("SELECT snapshot_id FROM spark_catalog.DEFAULT.HIST_TRX_{0}.refs WHERE NAME == 'ing_branch';".format(username)).collect()[0][0]
 print(branchSnapshotId)
 # USE THE PROCEDURE TO CHERRY-PICK THE SNAPSHOT
 # THIS IMPLICITLY SETS THE CURRENT TABLE STATE TO THE STATE DEFINED BY THE CHOSEN PRIOR SNAPSHOT ID
-spark.sql("CALL spark_catalog.system.cherrypick_snapshot('spark_catalog.DEFAULT.TRX_HIST_{1}',{2})".format(username, username, branchSnapshotId))
+spark.sql("CALL spark_catalog.system.cherrypick_snapshot('spark_catalog.DEFAULT.HIST_TRX_{1}',{2})".format(username, username, branchSnapshotId))
 
 # VALIDATE THE CHANGES
 # THE TABLE ROW COUNT IN THE CURRENT TABLE STATE REFLECTS THE APPEND OPERATION - IT PREVIOSULY ONLY DID BY SELECTING THE BRANCH
-spark.sql("SELECT COUNT(*) FROM spark_catalog.DEFAULT.TRX_HIST_{0};".format(username)).show()
+spark.sql("SELECT COUNT(*) FROM spark_catalog.DEFAULT.HIST_TRX_{0};".format(username)).show()

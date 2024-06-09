@@ -109,7 +109,7 @@ assert geTrxBatchDfValidation.success, \
 #---------------------------------------------------
 
 ### CREATE TEMP TABLE
-transactionsDf.createOrReplaceTempView("trx_batch")
+trxBatchDf.createOrReplaceTempView("trx_batch")
 
 ### PRE-MERGE COUNTS BY TRANSACTION TYPE:
 spark.sql("""SELECT TRANSACTION_TYPE, COUNT(*) FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0} GROUP BY TRANSACTION_TYPE""".format(username)).show()

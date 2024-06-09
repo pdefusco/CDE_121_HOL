@@ -23,7 +23,6 @@ The Spark Application scripts and configuration files used in these labs are ava
 
 The Airflow DAG script is available in the [CDE Airflow Jobs folder in the HOL git repository](https://github.com/pdefusco/CDE_121_HOL/tree/main/cde_airflow_jobs). Please familiarize yourself with the code in the "airflow_dag.py" script as well.
 
-```
 * The "01_Lakehouse_Bronze.py" PySpark Application createas Iceberg Customer and Credit Card transactions tables from different file formats. "utils.py" contains a the Python method to transform multiple dataframe columns at once utilized by the "01_Lakehouse_Bronze.py" script.
 
 * "parameters.conf" contains a configuration variable that is passed to each of the three PySpark scripts. Storing variables in a Files Resource is a commonly used method by CDE Data Engineers to dynamically parameterize scripts and pass hidden credentials at runtime.
@@ -33,7 +32,6 @@ The Airflow DAG script is available in the [CDE Airflow Jobs folder in the HOL g
 * "03_Lakehouse_Gold.py" loads the data from the Transactions table filtering in terms of Iceberg snapshot ID in order to only reflect the latest batch. Then it joins it with the customer table and uses a PySpark UDF to filter customers in terms of distance to the transaction location. Finally, it creates a Gold Layer table in order to provide curated access to Business analysts and other authorized stakeholders.
 
 * "airflow_dag.py" orchestrates the Data Engineering pipeline. First an AWS S3 bucket is created; a simple file "my_file.txt" is read from a CDE Files Resource and written to the S3 bucket. Successively the three CDE Spark Jobs discussed above are executed in order to create a Lakehouse Gold Layer table.
-```
 
 ##### Create CDE Repository
 

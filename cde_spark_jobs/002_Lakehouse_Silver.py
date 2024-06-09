@@ -108,18 +108,14 @@ assert geTrxBatchDfValidation.success, \
 #               MERGE TRANSACTIONS WITH HIST
 #---------------------------------------------------
 
-### CREATE TEMP TABLE
-trxBatchDf.createOrReplaceTempView("trx_batch")
-
 ### PRE-MERGE COUNTS BY TRANSACTION TYPE:
-spark.sql("""SELECT COUNT(*) FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0}""".format(username)).show()
+spark.sql("""SELECT COUNT(*) FROM SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0}""".format(username)).show()
 
-### MERGE OPERATION
-spark.sql("""INSERT INTO spark_catalog.HOL_DB_{0}.HIST_TRX_{0} SELECT * FROM trx_batch""".format(username))
+### APPEND OPERATION
+trxBatchDf.write.format("iceberg").mode("append").save("SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0}".format(username))
 
 ### POST-MERGE COUNT:
-spark.sql("""SELECT COUNT(*) FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0}""".format(username)).show()
-
+spark.sql("""SELECT COUNT(*) FROM SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0}""".format(username)).show()
 
 ### MERGE INGESTION BRANCH INTO MAIN TABLE BRANCH
 

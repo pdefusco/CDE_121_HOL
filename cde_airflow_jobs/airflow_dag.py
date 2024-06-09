@@ -91,7 +91,7 @@ list_bucket  = S3ListOperator(
 
 read_conf = BashOperator(
     	task_id="read_conf",
-    	bash_command="cat /app/mount/CDE_Repo_{}/my_file.txt".format(username),
+    	bash_command="cat /app/mount/Airflow_Files_Resource/my_file.txt",
         do_xcom_push=True,
         dag=dag
 	)

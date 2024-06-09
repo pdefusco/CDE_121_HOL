@@ -1,10 +1,10 @@
 # Job Development
 
-* [A Brief Introduction to Spark](https://github.com/pdefusco/CDE_Banking_HOL_MKT/blob/main/step_by_step_guides/english/part_01_spark.md#a-brief-introduction-to-spark)
-* [Lab 1: Run PySpark Interactive Session](https://github.com/pdefusco/CDE_Banking_HOL_MKT/blob/main/step_by_step_guides/english/part_01_spark.md#lab-1-run-pyspark-interactive-session)
-* [Lab 2: Create CDE Resources and Run CDE Spark Job](https://github.com/pdefusco/CDE_Banking_HOL_MKT/blob/main/step_by_step_guides/english/part_01_spark.md#lab-2-create-cde-resources-and-run-cde-spark-job)
-* [Summary](https://github.com/pdefusco/CDE_Banking_HOL_MKT/blob/main/step_by_step_guides/english/part_01_spark.md#summary)
-* [Useful Links and Resources](https://github.com/pdefusco/CDE_Banking_HOL_MKT/blob/main/step_by_step_guides/english/part_01_spark.md#useful-links-and-resources)
+* [A Brief Introduction to Spark](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_01_development.md#a-brief-introduction-to-spark)
+* [Lab 1: Run PySpark Interactive Session](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_01_development.md#lab-1-run-pyspark-interactive-session)
+* [Lab 2: Using Icberg with PySpark](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_01_development.md#lab-2-using-icberg-with-pyspark)
+* [Summary](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_01_development.md#summary)
+* [Useful Links and Resources](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_01_development.md#useful-links-and-resources-1)
 
 ### A Brief Introduction to Spark
 

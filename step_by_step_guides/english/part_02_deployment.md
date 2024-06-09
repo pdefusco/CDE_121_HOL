@@ -1,12 +1,13 @@
 # Job Deployment & Orchestration
 
-* [A Brief Introduction to Apache Airflow](https://github.com/pdefusco/CDE_Banking_HOL_MKT/blob/main/step_by_step_guides/english/part_03_airflow.md#a-brief-introduction-to-airflow)
-* [Lab 1: Orchestrate Spark Pipeline with Airflow](https://github.com/pdefusco/CDE_Banking_HOL_MKT/blob/main/step_by_step_guides/english/part_03_airflow.md#lab-1-orchestrate-spark-pipeline-with-airflow)
-* [Summary](https://github.com/pdefusco/CDE_Banking_HOL_MKT/blob/main/step_by_step_guides/english/part_03_airflow.md#summary)
-* [Useful Links and Resources](https://github.com/pdefusco/CDE_Banking_HOL_MKT/blob/main/step_by_step_guides/english/part_03_airflow.md#useful-links-and-resources)
+* [Lab 3: Create CDE Resources and Spark Jobs](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_02_deployment.md#lab-3-create-cde-resources-and-run-cde-spark-job)
+* [Lab 4: Orchestrate Spark Pipeline with Airflow](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_02_deployment.md#lab-4-orchestrate-spark-pipeline-with-airflow)
+* [A Brief Introduction to Apache Airflow](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_02_deployment.md#a-brief-introduction-to-airflow)
+* [Summary](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_02_deployment.md#summary)
+* [Useful Links and Resources](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_02_deployment.md#useful-links-and-resources)
 
 
-### Lab 3: Create CDE Resources and Run CDE Spark Job
+### Lab 3: Create CDE Resources and Spark Jobs
 
 Up until now you used Sessions to interactively explore data. CDE also allows you to run Spark Application code in batch as a CDE Job. There are two types of CDE Jobs: Spark and Airflow. In this lab we will create an Airflow Job in order to orchestrate three Spark Jobs.
 

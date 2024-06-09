@@ -112,17 +112,13 @@ assert geTrxBatchDfValidation.success, \
 trxBatchDf.createOrReplaceTempView("trx_batch")
 
 ### PRE-MERGE COUNTS BY TRANSACTION TYPE:
-spark.sql("""SELECT TRANSACTION_TYPE, COUNT(*) FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0} GROUP BY TRANSACTION_TYPE""".format(username)).show()
+spark.sql("""SELECT COUNT(*) FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0}""".format(username)).show()
 
 ### MERGE OPERATION
-spark.sql("""MERGE INTO spark_catalog.HOL_DB_{0}.HIST_TRX_{0} t
-USING (SELECT * FROM trx_batch) s
-ON t.credit_card_number = s.credit_card_number
-WHEN MATCHED AND t.transaction_amount < 1000 AND t.transaction_currency != "CHF" THEN UPDATE SET t.transaction_type = "invalid"
-WHEN NOT MATCHED THEN INSERT *""".format(username))
+spark.sql("""INSERT INTO spark_catalog.HOL_DB_{0}.HIST_TRX_{0} SELECT * FROM trx_batch""".format(username))
 
 ### POST-MERGE COUNT:
-spark.sql("""SELECT TRANSACTION_TYPE, COUNT(*) FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0} GROUP BY TRANSACTION_TYPE""".format(username)).show()
+spark.sql("""SELECT COUNT(*) FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0}""".format(username)).show()
 
 
 ### MERGE INGESTION BRANCH INTO MAIN TABLE BRANCH

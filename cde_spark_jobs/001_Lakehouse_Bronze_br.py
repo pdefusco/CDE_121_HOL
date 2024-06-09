@@ -171,7 +171,7 @@ spark.sql("ALTER TABLE spark_catalog.HOL_DB_{0}.HIST_TRX_{0} DROP BRANCH IF EXIS
 spark.sql("ALTER TABLE spark_catalog.HOL_DB_{0}.HIST_TRX_{0} CREATE BRANCH ing_branch".format(username))
 
 # WRITE DATA OPERATION ON TABLE BRANCH
-trxBatchDf.write.format("iceberg").option("branch", "ing_branch").mode("append").save("SPARK_CATALOG.DEFAULT.HIST_TRX_{0}".format(username))
+trxBatchDf.write.format("iceberg").option("branch", "ing_branch").mode("append").save("SPARK_CATALOG.HIST_TRX_.HIST_TRX_{0}".format(username))
 
 
 #---------------------------------------------------
@@ -180,9 +180,9 @@ trxBatchDf.write.format("iceberg").option("branch", "ing_branch").mode("append")
 
 # Notice that a simple SELECT query against the table still returns the original data.
 print("TABLE COUNT")
-spark.sql("SELECT COUNT(*) FROM SPARK_CATALOG.DEFAULT.HIST_TRX_{0};".format(username)).show()
+spark.sql("SELECT COUNT(*) FROM SPARK_CATALOG.HIST_TRX_.HIST_TRX_{0};".format(username)).show()
 
 # If you want to access the data in the branch, you can specify the branch name in your SELECT query.
 #spark.sql("SELECT COUNT(*) FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0} VERSION AS OF 'ing_branch'".format(username)).show()
 print("TABLE BRANCH COUNT")
-print(spark.read.option("branch", "ing_branch").format("iceberg").load("SPARK_CATALOG.DEFAULT.HIST_TRX_{0}".format(username)).count())
+print(spark.read.option("branch", "ing_branch").format("iceberg").load("SPARK_CATALOG.HIST_TRX_.HIST_TRX_{0}".format(username)).count())

@@ -70,13 +70,16 @@ spark.sql("SELECT * FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0}.snapshots".format
 # STORE FIRST AND LAST SNAPSHOT ID'S FROM SNAPSHOTS TABLE
 snapshots_df = spark.sql("SELECT * FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0}.snapshots;".format(username))
 
+# SNAPSHOTS
+snapshots_df.show()
+
 last_snapshot = snapshots_df.select("snapshot_id").tail(1)[0][0]
-second_snapshot = snapshots_df.select("snapshot_id").collect()[1][0]
-#first_snapshot = snapshots_df.select("snapshot_id").head(1)[0][0]
+#second_snapshot = snapshots_df.select("snapshot_id").collect()[1][0]
+first_snapshot = snapshots_df.select("snapshot_id").head(1)[0][0]
 
 incReadDf = spark.read\
     .format("iceberg")\
-    .option("start-snapshot-id", second_snapshot)\
+    .option("start-snapshot-id", first_snapshot)\
     .option("end-snapshot-id", last_snapshot)\
     .load("spark_catalog.HOL_DB_{0}.HIST_TRX_{0}".format(username))
 

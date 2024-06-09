@@ -81,7 +81,7 @@ spark.sql("DROP TABLE IF EXISTS SPARK_CATALOG.DEFAULT.CUST_TABLE_REFINED_{0}".fo
 spark.sql("""CREATE TABLE SPARK_CATALOG.DEFAULT.CUST_TABLE_REFINED_{0}
                 USING iceberg
                 AS SELECT NAME, EMAIL, BANK_COUNTRY, ACCOUNT_NO, CREDIT_CARD_NUMBER, ADDRESS_LATITUDE, ADDRESS_LONGITUDE
-                FROM SPARK_CATALOG.HOL_DB_{0}.CUST_TABLE_{0}""".format(username))
+                FROM SPARK_CATALOG.DEFAULT.CUST_TABLE_{0}""".format(username))
 
 
 #---------------------------------------------------

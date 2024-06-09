@@ -92,7 +92,7 @@ spark.sql("SELECT * FROM spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0}.refs;".format
 
 # SAVE THE SNAPSHOT ID CORRESPONDING TO THE CREATED BRANCH
 branchSnapshotId = spark.sql("SELECT snapshot_id FROM spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0}.refs WHERE NAME == 'ingestion_branch';".format(username)).collect()[0][0]
-
+print(branchSnapshotId)
 # USE THE PROCEDURE TO CHERRY-PICK THE SNAPSHOT
 # THIS IMPLICITLY SETS THE CURRENT TABLE STATE TO THE STATE DEFINED BY THE CHOSEN PRIOR SNAPSHOT ID
 spark.sql("CALL spark_catalog.system.cherrypick_snapshot('spark_catalog.HOL_DB_{0}.TRANSACTIONS_{1}',{2})".format(username, username, branchSnapshotId))

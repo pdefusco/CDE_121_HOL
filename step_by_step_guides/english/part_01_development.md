@@ -181,9 +181,9 @@ distanceDf.filter(distanceDf.trx_dist_from_home > 100).show()
 Create Transactions Iceberg table:
 
 ```
-spark.sql("CREATE DATABASE IF NOT EXISTS spark_catalog.HOL_DB_{}".format(username))
+spark.sql("CREATE DATABASE IF NOT EXISTS SPARK_CATALOG.HOL_DB_{}".format(username))
 
-transactionsDf.writeTo("spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0}".format(username)).using("iceberg").createOrReplace()
+transactionsDf.writeTo("SPARK_CATALOG.HOL_DB_{0}.TRANSACTIONS_{0}".format(username)).using("iceberg").tableProperty("write.format.default", "parquet").createOrReplace()
 ```
 
 Load New Batch of Transactions in Temp View:

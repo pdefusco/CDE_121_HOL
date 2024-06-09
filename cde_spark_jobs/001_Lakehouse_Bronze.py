@@ -100,7 +100,38 @@ spark.sql("""SELECT * FROM spark_catalog.HOL_DB_{0}.CUST_TABLE_REFINED_{0}""".fo
 
 
 #---------------------------------------------------
-#               PROCESS BATCH DATA
+#               CREATE TRANSACTIONS TABLE
+#---------------------------------------------------
+
+### LOAD HISTORICAL TRANSACTIONS FILE FROM CLOUD STORAGE
+transactionsDf = spark.read.json("{0}/mkthol/trans/{1}/rawtransactions".format(storageLocation, username))
+transactionsDf.printSchema()
+
+### RUN PYTHON FUNCTION TO FLATTEN NESTED STRUCTS AND VALIDATE NEW SCHEMA
+transactionsDf = transactionsDf.select(flatten_struct(transactionsDf.schema))
+transactionsDf.printSchema()
+
+### RENAME MULTIPLE COLUMNS
+cols = [col for col in transactionsDf.columns if col.startswith("transaction")]
+new_cols = [col.split(".")[1] for col in cols]
+transactionsDf = renameMultipleColumns(transactionsDf, cols, new_cols)
+
+### CAST TYPES
+cols = ["transaction_amount", "latitude", "longitude"]
+transactionsDf = castMultipleColumns(transactionsDf, cols)
+transactionsDf = transactionsDf.withColumn("event_ts", transactionsDf["event_ts"].cast("timestamp"))
+
+### RECREATE DATABASE AND TRX TABLE
+spark.sql("DROP DATABASE IF EXISTS SPARK_CATALOG.HOL_DB_{} CASCADE".format(username))
+spark.sql("CREATE DATABASE IF NOT EXISTS SPARK_CATALOG.HOL_DB_{}".format(username))
+
+transactionsDf.writeTo("SPARK_CATALOG.HOL_DB_{0}.TRANSACTIONS_{0}".format(username))\
+                .using("iceberg")\
+                .tableProperty("write.format.default", "parquet")\
+                .create()
+
+#---------------------------------------------------
+#               PROCESS BATCH TRANSACTIONS
 #---------------------------------------------------
 
 ### TRANSACTIONS FACT TABLE
@@ -137,5 +168,5 @@ trxBatchDf.write.format("iceberg").option("branch", "ingestion_branch").mode("ap
 spark.sql("SELECT COUNT(*) FROM spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0};".format(username)).show()
 
 # If you want to access the data in the branch, you can specify the branch name in your SELECT query.
-#spark.sql("SELECT COUNT(*) FROM spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0} VERSION AS OF 'ingestion_branch';".format(username)).show()
-print(spark.read.option("branch", "ingestion_branch").format("iceberg").load("spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0}".format(username)).count())
+spark.sql("SELECT COUNT(*) FROM spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0} VERSION AS OF 'ingestion_branch';".format(username)).show()
+#print(spark.read.option("branch", "ingestion_branch").format("iceberg").load("spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0}".format(username)).count())

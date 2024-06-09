@@ -117,4 +117,4 @@ gold_cols = ['transaction_amount', 'transaction_currency', 'transaction_type', '
 
 distanceDf.select(*gold_cols).writeTo("spark_catalog.HOL_DB_{0}.GOLD_TABLE_{0}".format(username)).using("iceberg").createOrReplace()
 
-spark.sql("SELECT * FROM spark_catalog.HOL_DB_{0}.GOLD_TABLE_{0}".format(username)).show()
+#spark.sql("SELECT * FROM spark_catalog.HOL_DB_{0}.GOLD_TABLE_{0}".format(username)).show()

@@ -91,7 +91,7 @@ list_bucket  = S3ListOperator(
 
 read_conf = BashOperator(
     	task_id="read_conf",
-    	bash_command="cat /app/mount/my_file.txt",
+    	bash_command="cat my_file.txt",
         do_xcom_push=True,
         dag=dag
 	)

@@ -57,13 +57,37 @@ print("Storage Location from Config File: ", storageLocation)
 username = sys.argv[1]
 print("PySpark Runtime Arg: ", sys.argv[1])
 
+
 #---------------------------------------------------
 #               LOAD BATCH DATA FROM BRANCH
 #---------------------------------------------------
 
 trxBatchDf = spark.read.option("branch", "ing_branch")\
                 .format("iceberg")\
-                .load("spark_catalog.DEFAULT.HIST_TRX_{0}".format(username))
+                .load("spark_catalog.HOL_DB_{0}.HIST_TRX_{0}".format(username))
+
+
+#---------------------------------------------------
+#               PROCESS BATCH TRANSACTIONS
+#---------------------------------------------------
+
+### TRANSACTIONS FACT TABLE
+trxBatchDf = spark.read.json("{0}/mkthol/trans/{1}/trx_batch_2".format(storageLocation, username))
+
+### TRX DF SCHEMA BEFORE CASTING
+trxBatchDf.printSchema()
+
+### CAST TYPES
+cols = ["transaction_amount", "latitude", "longitude"]
+trxBatchDf = castMultipleColumns(trxBatchDf, cols)
+trxBatchDf = trxBatchDf.withColumn("event_ts", trxBatchDf["event_ts"].cast("timestamp"))
+
+### TRX DF SCHEMA AFTER CASTING
+trxBatchDf.printSchema()
+
+print("COUNT OF NEW BATCH OF TRANSACTIONS")
+print(trxBatchDf.count())
+
 
 #---------------------------------------------------
 #               VALIDATE BATCH DATA IN BRANCH
@@ -79,6 +103,28 @@ print(f"VALIDATION RESULTS FOR TRANSACTION BATCH DATA:\n{geTrxBatchDfValidation}
 assert geTrxBatchDfValidation.success, \
     "VALIDATION FOR SALES TABLE UNSUCCESSFUL: FOUND DUPLICATES IN COLUMNS LIST."
 
+
+#---------------------------------------------------
+#               MERGE TRANSACTIONS WITH HIST
+#---------------------------------------------------
+
+### CREATE TEMP TABLE
+transactionsDf.createOrReplaceTempView("trx_batch")
+
+### PRE-MERGE COUNTS BY TRANSACTION TYPE:
+spark.sql("""SELECT TRANSACTION_TYPE, COUNT(*) FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0} GROUP BY TRANSACTION_TYPE""".format(username)).show()
+
+### MERGE OPERATION
+spark.sql("""MERGE INTO spark_catalog.HOL_DB_{0}.HIST_TRX_{0} t
+USING (SELECT * FROM trx_batch) s
+ON t.credit_card_number = s.credit_card_number
+WHEN MATCHED AND t.transaction_amount < 1000 AND t.transaction_currency != "CHF" THEN UPDATE SET t.transaction_type = "invalid"
+WHEN NOT MATCHED THEN INSERT *""".format(username))
+
+### POST-MERGE COUNT:
+spark.sql("""SELECT TRANSACTION_TYPE, COUNT(*) FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0} GROUP BY TRANSACTION_TYPE""".format(username)).show()
+
+
 ### MERGE INGESTION BRANCH INTO MAIN TABLE BRANCH
 
 #The cherrypick_snapshot procedure creates a new snapshot incorporating the changes from another snapshot in a metadata-only operation
@@ -88,15 +134,15 @@ assert geTrxBatchDfValidation.success, \
 #we will use the cherrypick operation to commit the changes to the table which were staged in the 'ing_branch' branch up until now.
 
 # SHOW PAST BRANCH SNAPSHOT ID'S
-spark.sql("SELECT * FROM spark_catalog.DEFAULT.HIST_TRX_{0}.refs;".format(username)).show()
+#spark.sql("SELECT * FROM spark_catalog.DEFAULT.HIST_TRX_{0}.refs;".format(username)).show()
 
 # SAVE THE SNAPSHOT ID CORRESPONDING TO THE CREATED BRANCH
-branchSnapshotId = spark.sql("SELECT snapshot_id FROM spark_catalog.DEFAULT.HIST_TRX_{0}.refs WHERE NAME == 'ing_branch';".format(username)).collect()[0][0]
-print(branchSnapshotId)
+#branchSnapshotId = spark.sql("SELECT snapshot_id FROM spark_catalog.DEFAULT.HIST_TRX_{0}.refs WHERE NAME == 'ing_branch';".format(username)).collect()[0][0]
+#print(branchSnapshotId)
 # USE THE PROCEDURE TO CHERRY-PICK THE SNAPSHOT
 # THIS IMPLICITLY SETS THE CURRENT TABLE STATE TO THE STATE DEFINED BY THE CHOSEN PRIOR SNAPSHOT ID
-spark.sql("CALL spark_catalog.system.cherrypick_snapshot('spark_catalog.DEFAULT.HIST_TRX_{1}',{2})".format(username, username, branchSnapshotId))
+#spark.sql("CALL spark_catalog.system.cherrypick_snapshot('spark_catalog.DEFAULT.HIST_TRX_{1}',{2})".format(username, username, branchSnapshotId))
 
 # VALIDATE THE CHANGES
 # THE TABLE ROW COUNT IN THE CURRENT TABLE STATE REFLECTS THE APPEND OPERATION - IT PREVIOSULY ONLY DID BY SELECTING THE BRANCH
-spark.sql("SELECT COUNT(*) FROM spark_catalog.DEFAULT.HIST_TRX_{0};".format(username)).show()
+#spark.sql("SELECT COUNT(*) FROM spark_catalog.DEFAULT.HIST_TRX_{0};".format(username)).show()

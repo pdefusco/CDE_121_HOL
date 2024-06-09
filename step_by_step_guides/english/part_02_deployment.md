@@ -122,6 +122,8 @@ Lakehouse Gold Spark Job:
 
 Again, ***please create but do not run the jobs!***
 
+![alt text](../../img/spark_job_create.png)
+
 
 ### Lab 4: Orchestrate Spark Pipeline with Airflow
 

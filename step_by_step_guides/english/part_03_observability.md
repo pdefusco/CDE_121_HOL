@@ -1,10 +1,9 @@
 # Job Observability & Data Governance
 
-* [Lab 3: Create CDE Resources and Spark Jobs](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_02_deployment.md#lab-3-create-cde-resources-and-run-cde-spark-job)
-* [Lab 4: Orchestrate Spark Pipeline with Airflow](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_02_deployment.md#lab-4-orchestrate-spark-pipeline-with-airflow)
-* [A Brief Introduction to Apache Airflow](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_02_deployment.md#a-brief-introduction-to-airflow)
-* [Summary](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_02_deployment.md#summary)
-* [Useful Links and Resources](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_02_deployment.md#useful-links-and-resources)
+* [Lab 5: Monitoring Jobs with Cloudera Observability and CDE](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_03_observability.md#lab-5-monitoring-jobs-with-cloudera-observability-and-cde)
+* [Lab 6: Spark Job Governance with CDP Data Catalog](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_03_observability.md#lab-6-spark-job-governance-with-cdp-data-catalog)
+* [Summary](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_03_observability.md#summary)
+* [Useful Links and Resources](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_03_observability.md#useful-links-and-resources)
 
 
 ### Lab 5: Monitoring Jobs with Cloudera Observability and CDE
@@ -102,16 +101,15 @@ Finally perform a new search, this time using the Classification you created in 
 
 Cloudera Observability is CDP’s single pane of glass observability solution, continually discovering and collecting performance telemetry across data, applications, and infrastructure components running in CDP deployments on private and public clouds. With advanced, intelligent analytics and correlations, it provides insights and recommendations to address tricky issues, optimize costs, and improve performance.
 
+CDP Data Catalog is a cloud data catalog is a metadata management service that helps organizations find, manage, and understand their data in the cloud. It's a centralized repository that can help with data-driven decision making, improve data management, and increase operational efficiency
+
+In this final section of the labs you explored Job Run monitoring capabilities in CDE. In particular, you used the CDE Job Runs UI to persist Job Run metadata, Spark Logs and Spark UI post-execution. Then, you used CDP Observability to explore granular Job Run metrics and detect outliers. Finally, you used CDP Data Catalog in order to classify Spark Job runs in order to govern and search important job run metadata. 
+
 
 ### Useful Links and Resources
 
-* [Working with CDE Files Resources](https://community.cloudera.com/t5/Community-Articles/Working-with-CDE-Files-Resources/ta-p/379891)
+* [Cloudera Observability Documentation](https://docs.cloudera.com/observability/cloud/index.html)
+* [CDP Data Catalog](https://docs.cloudera.com/data-catalog/cloud/index.html)
+* [Apache Atlas Documentation](https://docs.cloudera.com/cdp-reference-architectures/latest/cdp-ra-security/topics/cdp-ra-security-apache-atlas.html)
+* [Apache Ranger Documentation](https://docs.cloudera.com/cdp-reference-architectures/latest/cdp-ra-security/topics/cdp-ra-security-apache-ranger.html)
 * [Efficiently Monitoring Jobs, Runs, and Resources with the CDE CLI](https://community.cloudera.com/t5/Community-Articles/Efficiently-Monitoring-Jobs-Runs-and-Resources-with-the-CDE/ta-p/379893)
-* [Working with CDE Spark Job Parameters in Cloudera Data Engineering](https://community.cloudera.com/t5/Community-Articles/Working-with-CDE-Spark-Job-Parameters-in-Cloudera-Data/ta-p/380792)
-* [How to parse XMLs in CDE with the Spark XML Package](https://community.cloudera.com/t5/Community-Articles/How-to-parse-XMLs-in-Cloudera-Data-Engineering-with-the/ta-p/379451)
-* [Spark Geospatial with Apache Sedona in CDE](https://community.cloudera.com/t5/Community-Articles/Spark-Geospatial-with-Apache-Sedona-in-Cloudera-Data/ta-p/378086)
-* [Automating Data Pipelines Using Apache Airflow in CDE](https://docs.cloudera.com/data-engineering/cloud/orchestrate-workflows/topics/cde-airflow-dag-pipeline.html)
-* [Using CDE Airflow](https://github.com/pdefusco/Using_CDE_Airflow)
-* [Airflow DAG Arguments Documentation](https://airflow.apache.org/docs/apache-airflow/stable/tutorial.html#default-arguments)
-* [Exploring Iceberg Architecture](https://github.com/pdefusco/Exploring_Iceberg_Architecture)
-* [Enterprise Data Quality at Scale in CDE with Great Expectations and CDE Custom Runtimes](https://community.cloudera.com/t5/Community-Articles/Enterprise-Data-Quality-at-Scale-with-Spark-and-Great/ta-p/378161)

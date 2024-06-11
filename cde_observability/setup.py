@@ -240,6 +240,14 @@ def main():
     maxParticipants, storageLocation, dataRows = parseProperties()
     ccMinValue = 3674567891195999
 
+    print("Setup Configurations:\n")
+    print("\nMax Participants:")
+    print(maxParticipants)
+    print("\nStorage Location:")
+    print(storageLocation)
+    print("\nData Rows:")
+    print(dataRows)
+
     spark = createSparkSession()
 
     for i in range(int(maxParticipants)):

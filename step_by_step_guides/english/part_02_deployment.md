@@ -100,7 +100,7 @@ Lakehouse Silver Spark Job:
 ```
 * Job Type: Spark
 * Name: 002_Lakehouse_Silver_userxxx
-* File: Select from Resource -> "002_Lakehouse_Silver.py"
+* File: Select from Repository -> "002_Lakehouse_Silver.py"
 * Arguments: userxxx #e.g. user002
 * Python Environment: Python_Resource
 * Advanced Options - Resources: Spark_Files_Resource
@@ -112,7 +112,7 @@ Lakehouse Gold Spark Job:
 ```
 * Job Type: Spark
 * Name: 003_Lakehouse_Gold_userxxx
-* File: Select from Resource -> "003_Lakehouse_Gold.py"
+* File: Select from Repository -> "003_Lakehouse_Gold.py"
 * Arguments: userxxx #e.g. user002
 * Advanced Options - Resources: Spark_Files_Resource
 * Advanced Options - Repositories: CDE_Repo_userxxx e.g. CDE_Repo_user002

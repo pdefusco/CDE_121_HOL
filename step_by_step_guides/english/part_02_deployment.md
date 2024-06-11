@@ -141,7 +141,7 @@ Just like CDE Spark Jobs, Airflow jobs can leverage CDE Files Resources in order
 
 ##### Create Airflow Job
 
-Open the "airflow_dag.py" script located in the "cde_airflow_jobs" folder. Familiarize yourself with the code an notice:
+Open the "004_airflow_dag.py" script located in the "cde_airflow_jobs" folder. Familiarize yourself with the code an notice:
 
 * The Python classes needed for the DAG Operators are imported at the top. Notice the CDEJobRunOperator is included to run Spark Jobs in CDE.
 * The "default_args" dictionary includes options for scheduling, setting dependencies, and general execution.
@@ -150,7 +150,7 @@ Open the "airflow_dag.py" script located in the "cde_airflow_jobs" folder. Famil
 
 Download the file from [this URL](https://github.com/pdefusco/CDE_121_HOL/tree/main/cde_airflow_jobs) to your local machine. Open it in your editor of choice and edit the username variable at line 49.
 
-Then navigate to the CDE Jobs UI and create a new CDE Job. Select Airflow as the Job Type. Select the "airflow_dag.py" script and elect to create a new Files Resource named after yourself in the process. Finally, add the Files Resource dependency where you loaded "my_file.txt".  
+Then navigate to the CDE Jobs UI and create a new CDE Job. Select Airflow as the Job Type. Select the "004_airflow_dag.py" script and elect to create a new Files Resource named after yourself in the process. Finally, add the Files Resource dependency where you loaded "my_file.txt".  
 
 ![alt text](../../img/new_airflow_job_1.png)
 

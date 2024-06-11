@@ -4,6 +4,7 @@ docker_user=$1
 cde_user=$2
 max_participants=$3
 storage_location=$4
+row_count=$5
 
 echo "CDE BNK HOL DEPLOYMENT INITIATED...."
 echo "..."
@@ -32,7 +33,7 @@ cde job delete --name obs-setup-$cde_user
 echo "Create job obs-setup-"$cde_user
 cde job create --name obs-setup-$cde_user --type spark --mount-1-resource obs-setup-$cde_user --application-file setup.py --runtime-image-resource-name dex-spark-runtime-$cde_user
 echo "Run job obs-setup-"$cde_user
-cde job run --name obs-setup-$cde_user --arg $max_participants --arg $storage_location
+cde job run --name obs-setup-$cde_user --driver-cores 2 --driver-memory "4g" --executor-cores 5 --executor-memory "4g" --arg $max_participants --arg $storage_location --arg $row_count
 
 echo " "
 echo "."

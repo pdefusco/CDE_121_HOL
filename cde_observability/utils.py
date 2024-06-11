@@ -101,8 +101,6 @@ class BankDataGen:
         # partition parameters etc.
         self.spark.conf.set("spark.sql.shuffle.partitions", shuffle_partitions_requested)
 
-        ccMinValue =
-
         fakerDataspec = (DataGenerator(self.spark, rows=self.dataRows, partitions=partitions_requested)
                     .withColumn("credit_card_number", "long", minValue=self.ccMinValue, maxValue=self.ccMinValue+self.dataRows+1, uniqueValues=self.dataRows, step=1) #text=FakerTextUS("credit_card_number")
                     .withColumn("credit_card_provider", text=FakerTextUS("credit_card_provider"))

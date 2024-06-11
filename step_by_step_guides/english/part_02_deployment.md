@@ -148,7 +148,7 @@ Open the "004_airflow_dag.py" script located in the "cde_airflow_jobs" folder. F
 * Three instances of the CDEJobRunOperator obect are declared. These reflect the three CDE Spark Jobs you created above.
 * Finally, at the bottom of the DAG, Task Dependencies are declared. With this statement you can specify the execution sequence of DAG tasks.
 
-Download the file from [this URL](https://github.com/pdefusco/CDE_121_HOL/tree/main/cde_airflow_jobs) to your local machine. Open it in your editor of choice and edit the username variable at line 49.
+Download the file from [this URL](https://github.com/pdefusco/CDE_121_HOL/tree/main/cde_airflow_jobs) to your local machine. Open it in your editor of choice and edit the username variable at line 52.
 
 Then navigate to the CDE Jobs UI and create a new CDE Job. Select Airflow as the Job Type. Select the "004_airflow_dag.py" script and elect to create a new Files Resource named after yourself in the process. Finally, add the Files Resource dependency where you loaded "my_file.txt".  
 

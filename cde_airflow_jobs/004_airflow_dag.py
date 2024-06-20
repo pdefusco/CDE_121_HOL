@@ -49,7 +49,7 @@ from airflow.providers.amazon.aws.operators.s3 import S3ListOperator, S3CreateBu
 from airflow.operators.bash import BashOperator
 import pendulum
 
-username = "user082" # Enter your username here
+username = "user002" # Enter your username here
 bucket_name = "eastbucket-" + username
 dag_name = "BankFraudHol-"+username
 

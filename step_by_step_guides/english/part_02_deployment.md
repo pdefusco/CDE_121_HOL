@@ -137,7 +137,7 @@ CDE embeds Apache Airflow at the CDE Virtual Cluster level. It is automatically 
 
 ##### Create Airflow Files Resource
 
-Just like CDE Spark Jobs, Airflow jobs can leverage CDE Files Resources in order to load files including datasets or runtime parameters. A CDE Files Resource named "airflow_dependencies" containing the "my_file.txt" has already been created for all participants.
+Just like CDE Spark Jobs, Airflow jobs can leverage CDE Files Resources in order to load files including datasets or runtime parameters. A CDE Files Resource named "Airflow_Files_Resource" containing the "my_file.txt" has already been created for all participants.
 
 ##### Create Airflow Job
 

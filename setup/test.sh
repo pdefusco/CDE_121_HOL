@@ -1,16 +1,15 @@
 function loading_icon() {
   local loading_animation=( '—' "\\" '|' '/' )
 
-  echo -n "${loading_message} "
+  echo "${1} "
 
   tput civis
   trap "tput cnorm" EXIT
 
   while true; do
     job_status=$(cde run list --filter 'job[like]%mkt-hol-setup-pauldefusco%' | jq -r '.[].status')
-    if [[ $job_status=="succeeded" ]]; then
+    if [[ $job_status == $"succeeded" ]]; then
       echo "job has completed"
-      break
     else
       for frame in "${loading_animation[@]}" ; do
         printf "%s\b" "${frame}"

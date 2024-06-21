@@ -2,9 +2,9 @@
 
 ## Objective
 
-This git repository hosts the data setup automation for the HOL. The script consists of a series of CDE CLI commands that create synthetic data in cloud storage for each participant.
+This git repository hosts the setup automation for the HOL. The script consists of a series of CDE CLI commands that first create synthetic data in cloud storage for each participant, and then create the shared CDE Resource by every participant.
 
-This automation does not run the labs. These are very easy to create from the CDE UI and do not require automation.
+This automation does not run the actual lab material. These are easy to create from the CDE UI and do not require automation.
 
 ## Table of Contents
 
@@ -30,17 +30,16 @@ The automation is provided is a set of CDE CLI commands which are run as a shell
 
 #### 1. Important Information
 
-The Demo includes three parts. Part 1 includes a CDE Session and a CDE Spark Job. Part 2 consists of another CDE Session with Iceberg Spark and SQL commands. Part 3 executes four Spark Iceberg jobs in an Airflow DAG.
+The shell script deploys the following:
 
-The Spark Job in part 1 can be run as many times as needed. It wipes out the previous data saved by jobs 2-5. If an error is made in the workshop, rerunning job 1 will allow you to start from scratch.
-
-In order to run part 3, each participant must complete part 1 and part 2. In part 1 two Spark tables are created. In part 2 the fact table (transactions) is migrated to iceberg.
+* A CDE Spark Job and associated CDE Resources with the purpose of creating synthetic data in Cloud Storage for each participant.
+* A CDE Files Resource for Spark files shared by all participants named "Spark-Files-Shared".
+* A CDE Files Resource for Airflow files shared by all participants named "Airflow-Files-Shared".
+* A CDE Python Resource shared by all participants named "Python-Env-Shared".
 
 #### 2. Run deploy.sh
 
-The shell script deploys a CDE Spark Job and associated CDE Resources with the purpose of creating synthetic data in Cloud Storage for each participant.
-
-Before running this be prepared to enter your Docker credentials and CDP Workload Password in the terminal.
+You will need to run your Docker credentials and CDP Workload Password in the terminal.
 
 When setup is complete navigate to the CDE UI and validate that the job run has completed successfully. This implies that the HOL data has been created successfully in Cloud Storage.
 
@@ -53,12 +52,12 @@ Run the deployment script with:
 For example:
 
 ```
-AWS
+#AWS
 ./setup/deploy_hol.sh pauldefusco pauldefusco 3 s3a://goes-se-sandbox01/data
 ```
 
 ```
-Azure
+#Azure
 ./setup/deploy_hol.sh pauldefusco pauldefusco 3 abfs://logs@go01demoazure.dfs.core.windows.net/data
 ```
 

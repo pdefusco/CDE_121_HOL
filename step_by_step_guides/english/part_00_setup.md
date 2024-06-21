@@ -2,23 +2,27 @@
 
 ## Objective
 
-This git repository hosts the automation for a CDE Demo that includes Spark, Airflow and Iceberg. The Demo is deployed and removed in your Virtual Cluster within minutes.
+This git repository hosts the data setup automation for the HOL. The script consists of a series of CDE CLI commands that create synthetic data in cloud storage for each participant.
+
+This automation does not run the labs. These are very easy to create from the CDE UI and do not require automation.
 
 ## Table of Contents
 
 * [Requirements](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#requirements)
 * [Deployment Instructions](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#deployment-instructions)
   * [1. Important Information](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#1-important-information)
-  * [2. autodeploy.sh](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#2-autodeploysh)
+  * [2. Running deploy.sh](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#2-autodeploysh)
 * [Summary](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#summary)
 
 ## Requirements
 
 To deploy the demo via this automation you need:
 
-* An All-Purpose CDE Virtual Cluster in CDP Public Cloud version 1.19 or above.
-* A working installation of Docker on your local machine and a Dockerhub account. Please have your Dockerhub user and password ready.
-* Basic knowledge of CDE, Python, Airflow, Iceberg and PySpark is recommended but not required. No code changes are required.
+* A CDP tenant in Public or Private cloud.
+* A CDP Workload User with Ranger policies and IDBroker Mappings configured accordingly.
+* An CDE Service on version 1.21 or above.
+* The Docker Custom Runtime entitlement. Please contact the CDE product or sales team to obtain the entitlement.
+* A Dockerhub account. Please have your Dockerhub user and password ready.
 
 ## Deployment Instructions
 
@@ -32,22 +36,38 @@ The Spark Job in part 1 can be run as many times as needed. It wipes out the pre
 
 In order to run part 3, each participant must complete part 1 and part 2. In part 1 two Spark tables are created. In part 2 the fact table (transactions) is migrated to iceberg.
 
-#### 2. autodeploy.sh
+#### 2. Run deploy.sh
 
-Run the autodeploy script with:
+The shell script deploys a CDE Spark Job and associated CDE Resources with the purpose of creating synthetic data in Cloud Storage for each participant.
+
+Before running this be prepared to enter your Docker credentials and CDP Workload Password in the terminal.
+
+When setup is complete navigate to the CDE UI and validate that the job run has completed successfully. This implies that the HOL data has been created successfully in Cloud Storage.
+
+Run the deployment script with:
 
 ```
-./auto_deploy_hol.sh pauldefusco pauldefusco 3 s3a://goes-se-sandbox01/data
+./setup/deploy_hol.sh <docker-user> <cdp-workload-user> <number-of-participants> <storage-location>
 ```
 
-Before running this be prepared to enter your Docker credentials in the terminal. Then, you can follow progress in the terminal output. The pipeline should deploy within three minutes. When setup is complete navigate to the CDE UI and validate that the demo has been deployed. By now the setup_job should have completed and the airflow_orchestration job should already be in process.
+For example:
 
-#### 3. autodestroy.sh
+```
+AWS
+./setup/deploy_hol.sh pauldefusco pauldefusco 3 s3a://goes-se-sandbox01/data
+```
+
+```
+Azure
+./setup/deploy_hol.sh pauldefusco pauldefusco 3 abfs://logs@go01demoazure.dfs.core.windows.net/data
+```
+
+#### 3. teardown.sh
 
 When you are done run this script to tear down the data in the Catalog but not in S3. That step will be handles by the GOES teardown scripts.
 
 ```
-./auto_destroy.sh cdpworkloaduser
+./teardown.sh cdpworkloaduser
 ```
 
 ## Summary

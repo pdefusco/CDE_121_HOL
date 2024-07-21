@@ -45,9 +45,11 @@ from cloudera.cdp.airflow.operators.cde_operator import CDEJobRunOperator
 from airflow.operators.python import PythonOperator
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.models.param import Param
-from airflow.providers.amazon.aws.operators.s3 import S3ListOperator, S3CreateBucketOperator, S3CreateObjectOperator, S3DeleteBucketOperator
 from airflow.operators.bash import BashOperator
+from airflow.providers.github.operators.github import GithubOperator
 import pendulum
+import logging
+
 
 username = "user002" # Enter your username here
 bucket_name = "eastbucket-" + username
@@ -74,37 +76,6 @@ start = DummyOperator(
         dag=dag
 )
 
-read_conf = BashOperator(
-    	task_id="read_conf",
-    	bash_command="cat /app/mount/Airflow_Files_Resource/my_file.txt",
-        do_xcom_push=True,
-        dag=dag
-	)
-
-def taskgroup():
-
-    @task
-    def pull_xcom(**context):
-        pulled_xcom = context["ti"].xcom_pull(
-            # reference a task in a task group with task_group_id.task_id
-            task_ids=["read_conf"],
-            # only pull Xcom from specific mapped task group instances (2.5 feature)
-            key="return_value",
-        )
-        # will print out a list of results from map index 2 and 3 of the add_42 task
-        print(pulled_xcom)
-
-    @task
-    def upload_to_azure_blob(pulled_xcom):
-        # Instanstiate
-        azurehook = WasbHook(wasb_conn_id="azure_blob")
-
-        # Take string, upload to S3 using predefined method
-        azurehook.load_string(string_data=pulled_xcom, container_name="azure-blobs", blob_name=filename)
-
-    upload_to_azure_blob(pull_xcom())
-
-
 bronze = CDEJobRunOperator(
         task_id='data-ingestion',
         dag=dag,
@@ -126,9 +97,16 @@ gold = CDEJobRunOperator(
         trigger_rule='all_success',
         )
 
+github_list_repos = GithubOperator(
+    task_id="github_list_repos",
+    github_method="get_user",
+    result_processor=lambda user: logger.info(list(user.get_repos())),
+    dag=dag
+)
+
 end = DummyOperator(
         task_id="end",
         dag=dag
 )
 
-start >> read_conf >> taskgroup >> bronze >> silver >> gold >> end
+start >> read_conf >> taskgroup >> bronze >> silver >> gold >> github_list_repos >> end

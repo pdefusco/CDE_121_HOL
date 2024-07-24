@@ -9,11 +9,11 @@ This automation does not run the actual lab material. These are easy to create f
 ## Table of Contents
 
 * [Requirements](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#requirements)
-* [Important Information]()
+* [Important Information](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#important-information)
 * [Deployment Options](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#deployment-instructions)
-  * [1. Docker Deployment Instructions](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#1-important-information)
-  * [2. Local Deployment Instructions](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#2-autodeploysh)
-* [Teardown Instructions]()
+  * [1. Docker Deployment Instructions](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#1-docker-deployment-instructions)
+  * [2. Local Deployment Instructions](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#2-local-deployment-instructions)
+* [Teardown Instructions](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#teardown-instructions)
 * [Summary](https://github.com/pdefusco/CDE_121_HOL/blob/main/step_by_step_guides/english/part_00_setup.md#summary)
 
 ## Requirements
@@ -78,7 +78,7 @@ For example:
 
 ### 2. Local Deployment Instructions
 
-Run the deployment script with:
+Clone this repository to your machine. Then run the deployment script with:
 
 ```
 % ./setup/deploy_hol.sh <docker-user> <cdp-workload-user> <number-of-participants> <storage-location>

@@ -131,7 +131,7 @@ In this lab you will build a pipeline of Spark Jobs to load a new batch of trans
 
 Apache Airflow is a platform to author, schedule and execute Data Engineering pipelines. It is widely used by the community to create dynamic and robust workflows for batch Data Engineering use cases.
 
-The main characteristic of Airflow workflows is that all workflows are defined in Python code. The Python code defining the worflow is stored as a collection of Airflow Tasks organized in a DAG. Tasks are defined by built-in opearators and Airflow modules. Operators are Python Classes that can be instantiated in order to perform predefined, parameterized actions.
+The main characteristic of Airflow workflows is that all workflows are defined in Python code. The Python code defining the workflow is stored as a collection of Airflow Tasks organized in a DAG. Tasks are defined by built-in operators and Airflow modules. Operators are Python Classes that can be instantiated in order to perform predefined, parameterized actions.
 
 CDE embeds Apache Airflow at the CDE Virtual Cluster level. It is automatically deployed for the CDE user during CDE Virtual Cluster creation and requires no maintenance on the part of the CDE Admin. In addition to the core Operators, CDE supports the CDEJobRunOperator and the CDWOperator in order to trigger Spark Jobs. and Datawarehousing queries.
 
@@ -145,7 +145,7 @@ Open the "004_airflow_dag.py" script located in the "cde_airflow_jobs" folder. F
 
 * The Python classes needed for the DAG Operators are imported at the top. Notice the CDEJobRunOperator is included to run Spark Jobs in CDE.
 * The "default_args" dictionary includes options for scheduling, setting dependencies, and general execution.
-* Three instances of the CDEJobRunOperator obect are declared. These reflect the three CDE Spark Jobs you created above.
+* Three instances of the CDEJobRunOperator ojbect are declared. These reflect the three CDE Spark Jobs you created above.
 * Finally, at the bottom of the DAG, Task Dependencies are declared. With this statement you can specify the execution sequence of DAG tasks.
 
 Download the file from [this URL](https://github.com/pdefusco/CDE_121_HOL/tree/main/cde_airflow_jobs) to your local machine. Open it in your editor of choice and edit the username variable at line 52.
@@ -165,7 +165,7 @@ While the job is in-flight open the Airflow UI and monitor execution.
 
 ### Summary
 
-Cloudera Data Engineering (CDE) is a serverless service for Cloudera Data Platform that allows you to submit batch jobs to auto-scaling virtual clusters. CDE enables you to spend more time on your applications, and less time on infrastructure.
+Cloudera Data Engineering (CDE) is a Cloud Native Service for Cloudera Data Platform that allows you to submit batch jobs to auto-scaling virtual clusters. CDE enables you to spend more time on your applications, and less time on infrastructure.
 
 In these labs you improved your code for reusability by modularizing your logic into functions, and stored those functions as a util in a CDE Files Resource. You leveraged your Files Resource by storing dynamic variables in a parameters configurations file and applying a runtime variable via the Arguments field. In the context of more advanced Spark CI/CD pipelines both the parameters file and the Arguments field can be overwritten and overridden at runtime.
 

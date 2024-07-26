@@ -109,4 +109,4 @@ end = DummyOperator(
         dag=dag
 )
 
-start >> read_conf >> taskgroup >> bronze >> silver >> gold >> github_list_repos >> end
+start >> bronze >> silver >> gold >> github_list_repos >> end

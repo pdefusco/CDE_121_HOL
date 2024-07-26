@@ -61,13 +61,13 @@ All files from the git repository are now stored in CDE as a CDE Repository. Eac
 
 A resource in CDE is a named collection of files used by a job or a session. Resources can include application code, configuration files, custom Docker images, and Python virtual environment specifications (requirements.txt). CDE Data Engineers leverage Files Resources in order to store files and other job dependencies in CDE, and finally associate them with Job Runs.
 
-A CDE Resource of type "Files" containing the "parameters.conf" and "utils.py" files named "Spark_Files_Resource" has already been created for all participants.
+A CDE Resource of type "Files" containing the "parameters.conf" and "utils.py" files named "Spark-Files-Shared" has already been created for all participants.
 
 ##### Create CDE Python Environment Resource
 
-A CDE Resource of type "Python" built with the requirements.txt file and named "Python_Resource" has already been created for all participants. The requirements.txt includes the list of Python packages installed in it, which will be leveraged by the Job Run when it is attached to it.
+A CDE Resource of type "Python" built with the requirements.txt file and named "Python-Env-Shared" has already been created for all participants. The requirements.txt includes the list of Python packages installed in it, which will be leveraged by the Job Run when it is attached to it.
 
-For this lab we included Great Expectations, a popular Data Quality and Validation framwork.
+For this lab we included Great Expectations, a popular Data Quality and Validation framework.
 
 ##### Create CDE Spark Job
 
@@ -137,7 +137,7 @@ CDE embeds Apache Airflow at the CDE Virtual Cluster level. It is automatically 
 
 ##### Create Airflow Files Resource
 
-Just like CDE Spark Jobs, Airflow jobs can leverage CDE Files Resources in order to load files including datasets or runtime parameters. A CDE Files Resource named "Airflow_Files_Resource" containing the "my_file.txt" has already been created for all participants.
+Just like CDE Spark Jobs, Airflow jobs can leverage CDE Files Resources in order to load files including datasets or runtime parameters. A CDE Files Resource named "Airflow-Files-Shared" containing the "my_file.txt" has already been created for all participants.
 
 ##### Create Airflow Job
 

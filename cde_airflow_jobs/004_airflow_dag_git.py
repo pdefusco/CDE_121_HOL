@@ -52,10 +52,10 @@ import logging
 
 
 username = "user002" # Enter your username here
-bucket_name = "eastbucket-" + username
 dag_name = "BankFraudHol-"+username
 
 print("Using DAG Name: {}".format(dag_name))
+logger = logging.getLogger(__name__)
 
 default_args = {
     'owner': username,

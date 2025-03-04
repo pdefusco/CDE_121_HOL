@@ -103,7 +103,7 @@ Cloudera Observability is CDP’s single pane of glass observability solution, c
 
 CDP Data Catalog is a cloud data catalog is a metadata management service that helps organizations find, manage, and understand their data in the cloud. It's a centralized repository that can help with data-driven decision making, improve data management, and increase operational efficiency
 
-In this final section of the labs you explored Job Run monitoring capabilities in CDE. In particular, you used the CDE Job Runs UI to persist Job Run metadata, Spark Logs and Spark UI post-execution. Then, you used CDP Observability to explore granular Job Run metrics and detect outliers. Finally, you used CDP Data Catalog in order to classify Spark Job runs in order to govern and search important job run metadata. 
+In this final section of the labs you explored Job Run monitoring capabilities in CDE. In particular, you used the CDE Job Runs UI to persist Job Run metadata, Spark Logs and Spark UI post-execution. Then, you used CDP Observability to explore granular Job Run metrics and detect outliers. Finally, you used CDP Data Catalog in order to classify Spark Job runs in order to govern and search important job run metadata.
 
 
 ### Useful Links and Resources
